@@ -1,34 +1,39 @@
-'use strict';
+const request = require('request-promise-native');
 
-const FULLSTORY_API_BASE = 'https://www.fullstory.com/api/';
 const CORS_HEADER = { 'Access-Control-Allow-Origin': '*' };
+
+const fsRequest = request.defaults({
+  baseUrl: 'https://www.fullstory.com/api/v1/',
+  headers: {
+    Authorization: `Basic ${process.env.API_KEY}`,
+  },
+});
 
 module.exports.ping = async (event) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
       message: `I'm up!`,
-    }),
-    headers: CORS_HEADER,
+    })
   };
 };
 
 module.exports.fsProxy = async (event) => {
   console.log(JSON.stringify(event));
-  const pathParams = event.pathParameters.path;
   const queryString = Object.keys(event.queryStringParameters).map(key => {
     return `${key}=${event.queryStringParameters[key]}`;
   }).join('&');
-  const fsUrl = `${FULLSTORY_API_BASE}${pathParams}?${queryString}`;
-  console.log(fsUrl);
-  // TODO: mirror back the response to the sessions API
-  // TODO: on second thought - just limit this proxy to the /sessions endpoint
+
+  let fsResponse;
+  try {
+    fsResponse = await fsRequest.get(`sessions?${queryString}`);
+  } catch (e) {
+    fsResponse = e;
+  }
+
   return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'all good',
-      pathParams,
-      headers: CORS_HEADER,
-    }),
+    statusCode: fsResponse.statusCode,
+    body: fsResponse.response.body,
+    headers: CORS_HEADER,
   };
 }

@@ -64,10 +64,13 @@ functions:
           method: GET
   fs-proxy:
     handler: handler.fsProxy
+    environment:
+      API_KEY: ${file(secrets.yml):API_KEY}
     events:
       - http:
-          path: fs-api/{path+}
+          path: fs-api/v1/sessions
           method: GET
+          cors: true # refine according to https://serverless.com/blog/cors-api-gateway-survival-guide/
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
