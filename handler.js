@@ -19,7 +19,6 @@ module.exports.ping = async (event) => {
 };
 
 module.exports.fsProxy = async (event) => {
-  console.log(JSON.stringify(event));
   const queryString = Object.keys(event.queryStringParameters).map(key => {
     return `${key}=${event.queryStringParameters[key]}`;
   }).join('&');
