@@ -39,10 +39,10 @@ const proxy = async (event) => {
 };
 
 // NOTE: implement your authorization scheme as required
-const basicAuthZ = (fn) => async (event) => {
+const demoAuthZ = (fn) => async (event) => {
 
   const authHeader = event.headers.Authorization;
-  if (!authHeader || !authHeader.includes('Basic')) {
+  if (!authHeader || !authHeader.includes('Bearer')) {
     return {
       statusCode: 401,
       body: `{ message: 'Unauthorized' }`,
@@ -50,8 +50,8 @@ const basicAuthZ = (fn) => async (event) => {
     };
   }
 
-  const [username, password] = authHeader.split(' ')[1].split(':');
-  if (username !== 'someuser' || password !== 'theirpassword') {
+  const authToken = authHeader.split(' ')[1];
+  if (authToken !== '12345') {
     return {
       statusCode: 403,
       body: `{ message: 'Forbidden' }`,
@@ -62,4 +62,4 @@ const basicAuthZ = (fn) => async (event) => {
   return fn(event);
 };
 
-module.exports.fsProxy = basicAuthZ(proxy);
+module.exports.fsProxy = demoAuthZ(proxy);
