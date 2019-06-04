@@ -19,7 +19,7 @@ In `serverless.yml` this secret is created as an environment variable available 
     API_KEY: ${file(secrets.yml):API_KEY}
 ...
 ```
-(more details about `serverless.yml` can be found [here](https://serverless.com/framework/docs/providers/aws/guide/serverless.yml/)
+More details about `serverless.yml` can be found [here](https://serverless.com/framework/docs/providers/aws/guide/serverless.yml/).
 
 You can provide even more secure storage of your API key by using AWS Systems Manager parameter store: https://aws.amazon.com/blogs/compute/sharing-secrets-with-aws-lambda-using-aws-systems-manager-parameter-store/.
 
