@@ -6,12 +6,13 @@ With [Amazon API Gateway](https://aws.amazon.com/api-gateway/) and [AWS Lambda](
 ## Implementation Details
 
 ### secrets.yml
+
 The FullStory API key is stored in a file (not commited to this repo) called `secrets.yml`:
 ```yaml
 API_KEY: "your fullstory API key"
 ```
 
-In `serverless.yml` secret is created as an environment variable available to the Lambda function:
+In `serverless.yml` this secret is created as an environment variable available to the Lambda function:
 ```yaml
 ...
   environment:
@@ -20,3 +21,22 @@ In `serverless.yml` secret is created as an environment variable available to th
 ```
 (more details about `serverless.yml` can be found [here](https://serverless.com/framework/docs/providers/aws/guide/serverless.yml/)
 
+You can provide even more secure storage of your API key by using AWS Systems Manager parameter store: https://aws.amazon.com/blogs/compute/sharing-secrets-with-aws-lambda-using-aws-systems-manager-parameter-store/.
+
+### handler.sj
+
+`handler.js` contains all of the example logic that authorizes calls to your service before making a request to the FullStory REST API. There are a couple of important `TODOs` in the sample code that you should address:
+
+```JavaScript
+// TODO: restrict cors header to domains you expect to receive traffic from
+const CORS_HEADER = { 'Access-Control-Allow-Origin': '*' };
+...
+```
+
+and
+
+```JavaScript
+// TODO: implement your authorization scheme as required
+const demoAuthZ = (fn) => async (event) => {
+...
+```
