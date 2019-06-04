@@ -38,7 +38,7 @@ const proxy = async (event) => {
   };
 };
 
-// NOTE: implement your authorization scheme as required
+// TODO: implement your authorization scheme as required
 const demoAuthZ = (fn) => async (event) => {
 
   const authHeader = event.headers.Authorization;
