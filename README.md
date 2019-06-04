@@ -23,7 +23,7 @@ In `serverless.yml` this secret is created as an environment variable available 
 
 You can provide even more secure storage of your API key by using AWS Systems Manager parameter store: https://aws.amazon.com/blogs/compute/sharing-secrets-with-aws-lambda-using-aws-systems-manager-parameter-store/.
 
-### handler.sj
+### handler.js
 
 `handler.js` contains all of the example logic that authorizes calls to your service before making a request to the FullStory REST API. There are a couple of important `TODOs` in the sample code that you should address:
 
